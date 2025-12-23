@@ -1,6 +1,9 @@
 import os
+import sys
 import requests
+from calculator import estimate_lego_build_time
 from dotenv import load_dotenv
+
 
 load_dotenv()
 
@@ -38,13 +41,25 @@ def get_set_by_number(set_num):
     print("=====================\n")
 
 if __name__ == "__main__":
-    while True:
-        set_number = input(
-            "Enter a set number (e.g. 75257-1) or 'exit': "
-        ).strip()
+    # Allow non-interactive runs (containers/CI) by reading `SET_NUMBER` env.
+    set_from_env = os.getenv("SET_NUMBER")
+    if set_from_env:
+        get_set_by_number(set_from_env)
+    else:
+        # Only prompt if running in an interactive TTY; otherwise exit cleanly.
+        if sys.stdin.isatty():
+            while True:
+                try:
+                    set_number = input(
+                        "Enter a set number (e.g. 75257-1) or 'exit': "
+                    ).strip()
+                except EOFError:
+                    print("\nNo input available. Exiting.")
+                    break
 
-        if set_number.lower() == "exit":
-            print("Goodbye")
-            break
-
-        get_set_by_number(set_number)
+                if set_number.lower() == "exit":
+                    print("Goodbye")
+                    break
+                get_set_by_number(set_number)
+        else:
+            print("No SET_NUMBER provided and stdin is not a TTY — exiting.")
