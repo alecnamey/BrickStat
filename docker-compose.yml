@@ -1,15 +1,13 @@
-version: "3.8"
-
 services:
   backend:
     build:
-      context: .
-      dockerfile: brickstat-app/backend/Dockerfile
+      context: brickstat-app/backend
+      dockerfile: Dockerfile
+    image: brickstat-backend
     container_name: brickstat-backend
     env_file:
-      - brickstat-app/backend/.env
+      - ./.env
     ports:
-      - "5001:5000"
-    restart: "no"
+      - "5010:5000"
     environment:
       - PYTHONUNBUFFERED=1

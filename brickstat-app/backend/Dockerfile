@@ -5,17 +5,12 @@ ENV PYTHONUNBUFFERED=1
 
 WORKDIR /app
 
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends build-essential \
-    && rm -rf /var/lib/apt/lists/*
+# Install deps
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy requirements from repository root. Build with context set to project root:
-#   docker build -f brickstat-app/backend/Dockerfile .
-COPY requirements.txt /app/requirements.txt
-RUN pip install --no-cache-dir -r /app/requirements.txt
-
-# Copy backend sources
-COPY brickstat-app/backend /app
+# Copy backend source
+COPY . .
 
 EXPOSE 5000
 

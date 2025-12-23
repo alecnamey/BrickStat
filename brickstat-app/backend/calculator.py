@@ -1,6 +1,13 @@
-
-
-
+"""
+@Author: Alec Namey
+Lego Build Time Estimator
+@param piece_count: Total number of Lego pieces in the set (from API)
+@param build_style: 1 = slow, 2 = normal, 3 = fast
+@param distraction_level: 1–10 (1 = no distractions, 10 = very distracted)
+@param organization_level: 1–10 (1 = very disorganized, 10 = very organized)
+@param difficulty_level: 1–5 (1 = very easy, 5 = very difficult)
+@return: (int) Estimated build time in *Minutes*
+"""
 def estimate_lego_build_time(
     piece_count: int,
     build_style: int,          # 1 = slow, 2 = normal, 3 = fast
