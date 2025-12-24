@@ -1,44 +1,35 @@
-# BrickStat — Run & Secrets
+Backend
+------------------------------------
+* To run the backend there are several steps you need to do in order to make sure
+the backend server runs properly locally via Docker.
 
-Quick notes to run the backend with Docker and safely share the `.env` values.
 
-**1) Add your secrets (do not commit)**
-- Copy `brickstat-app/backend/.env.example` to `brickstat-app/backend/.env` and fill in your real `REBRICKABLE_API_KEY`.
+* Make a .env file in project root directory like the following with BrickStat as Root:
+  - BrickStat
+    * app
+    * readme
+    * .gitignore
+    * .env.example
+    * .env            <-----------------  add this file and copy contents from .env.example into .env and change the API key
 
-  macOS / Linux:
-  ```bash
-  cp brickstat-app/backend/.env.example brickstat-app/backend/.env
-  # edit the file and add your key
-  ```
 
-  PowerShell (Windows):
-  ```powershell
-  Copy-Item brickstat-app/backend/.env.example brickstat-app/backend/.env
-  # edit the file and add your key
-  ```
+Backend sever startup via Docker:
+1. Download Docker Desktop
+  - hit settings,
+  - type in 'integration',
+  - select the option that says: "Enable integration with additional distros",
+  - make sure the ubuntu is selected.
 
-**2) Run with Docker Compose**
-- From the repo root:
-  ```bash
-  docker compose up --build
-  # or detached
-  docker compose up -d --build
-  ```
+2. Build the dockerfile
+  In the terminal in the folder where docker-compose.yml is located (usually in the root)
+  * docker compose build --no-cache
 
-**3) Non-interactive lookup at start**
-- To run a single set lookup when starting the container:
-  ```bash
-  SET_NUMBER=75257-1 docker compose up --build
-  ```
+3. Run the dockerfile
+  In the terminal in the folder where docker-compose.yml is located (usually in the root)
+  * docker compose up
 
-**4) Development (no venv required)**
-- When using Docker the image provides Python and installs `requirements.txt` — your partner does not need to create a virtual environment.
 
-**5) Securely sharing the `.env` values**
-- Recommended: share the API key using a password manager (1Password, Bitwarden) or an encrypted channel (Signal). Do NOT send secrets in plaintext email or commit them to the repo.
-- For automation, store the secret in CI (GitHub Actions secrets) and inject it at build/run time rather than committing.
 
-**6) If a secret is exposed**
-- Rotate the API key at the provider immediately and replace the value in `.env`.
-
-Questions? I can add a `docker-compose.override.yml` for a dev bind-mount workflow or a short GitHub Actions workflow to build images on push (without committing the secret).
+Frontend
+---------------------------------------
+TBD
