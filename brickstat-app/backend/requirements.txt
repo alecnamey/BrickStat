@@ -1,6 +1,12 @@
-# make a venv and do: pip install -r requirements.txt
+# run the docker container which installs these dependencies
 flask>=2.0.0
 requests>=2.0.0
 python-dotenv>=1.0.0
+flask_sqlalchemy>=3.0.0
+pymysql>=1.0.2
+cryptography>=40.0
+flask-migrate>=4.0.0
+gunicorn>=20.0.4
+extensions>=0.0.0
 
 
