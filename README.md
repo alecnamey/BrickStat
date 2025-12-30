@@ -22,11 +22,12 @@ Backend sever startup via Docker:
 
 2. Build the dockerfile
   In the terminal in the folder where docker-compose.yml is located (usually in the root)
-  * docker compose build --no-cache
+  * docker compose build --detatch
 
 3. Run the dockerfile
   In the terminal in the folder where docker-compose.yml is located (usually in the root)
   * docker compose up
+
 
 
 
