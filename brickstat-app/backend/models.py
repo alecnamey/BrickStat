@@ -14,7 +14,6 @@ class Set(db.Model):
     # Cached static metadata
     piece_count = db.Column(db.Integer)
     release_year = db.Column(db.Integer)
-    image_url = db.Column(db.String(500))
 
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 

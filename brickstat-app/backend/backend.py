@@ -59,7 +59,6 @@ def create_app():
         set_name = data.get("set_name")
         piece_count = data.get("piece_count")
         release_year = data.get("release_year")
-        image_url = data.get("image_url")
 
         # Validate numeric fields
         def ivalue(key, minv=None, maxv=None):
@@ -96,7 +95,6 @@ def create_app():
                 name=set_name,
                 piece_count=piece_count,
                 release_year=release_year,
-                image_url=image_url,
             )
             db.session.add(set_obj)
 
@@ -148,7 +146,6 @@ def create_app():
             "set_name": s.name,
             "piece_count": s.piece_count,
             "release_year": s.release_year,
-            "image_url": s.image_url,
             "review_count": len(items),
             "reviews": [r.to_dict() for r in items],
         })

@@ -28,7 +28,8 @@ services:
     ports:
       - "3307:3306"
     volumes:
-      - mysql_data:/var/lib/mysql
+      - db_data:/var/lib/mysql
+      - ./brickstat-app/db/init.sql:/docker-entrypoint-initdb.d/init.sql
 
 volumes:
-  mysql_data:
+  db_data:
