@@ -14,6 +14,18 @@ if not API_KEY:
 BASE_URL = "https://rebrickable.com/api/v3/lego/sets/"
 
 
+def fetch_set(set_num):
+    headers = {"Authorization": f"key {API_KEY}"}
+    url = f"{BASE_URL}{set_num}/"
+    r = requests.get(url, headers=headers, timeout=5)
+
+    if r.status_code == 404:
+        return None
+
+    r.raise_for_status()
+    return r.json()
+
+
 def create_app():
     app = Flask(__name__)
 
