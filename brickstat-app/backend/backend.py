@@ -60,6 +60,7 @@ def create_app():
         piece_count = data.get("piece_count")
         release_year = data.get("release_year")
 
+
         # Validate numeric fields
         def ivalue(key, minv=None, maxv=None):
             v = data.get(key)
@@ -79,6 +80,7 @@ def create_app():
         distraction_level = ivalue("distraction_level", 1, 10)
         organization_level = ivalue("organization_level", 1, 10)
         build_speed = ivalue("build_speed", 1, 3)
+        user_id = ivalue("user_id")
 
         review_text = data.get("review_text")
         if review_text and len(review_text) > 250:
@@ -106,6 +108,7 @@ def create_app():
             organization_level=organization_level,
             build_speed=build_speed,
             review_text=review_text,
+            user_id=user_id,
         )
 
         db.session.add(review)
@@ -123,7 +126,8 @@ def create_app():
         items = q.order_by(models.Review.created_at.desc()).limit(100).all()
         return jsonify([i.to_dict() for i in items])
 
-
+    # useful to get all the reviews for a given set, 
+    # for example for the page showing set details
     @app.route("/sets/<set_num>/reviews", methods=["GET"])
     def list_reviews_for_set(set_num):
         s = models.Set.query.filter_by(set_num=set_num).first()
@@ -149,8 +153,33 @@ def create_app():
             "review_count": len(items),
             "reviews": [r.to_dict() for r in items],
         })
+    # lists all the reviews for a given set by a specific user
+    # USEFUL for to show on account dashboard page
+    @app.route("/sets/reviews/<user_id>", methods=["GET"])
+    def list_reviews_for_user(user_id):
+        items = (
+            models.Review.query
+            .filter_by(user_id=user_id)
+            .order_by(models.Review.created_at.desc())
+            .all()
+        )
 
-    
+        return jsonify({
+            "user_id": user_id,
+            "review_count": len(items),
+            "reviews": [r.to_dict() for r in items],
+        })
+    @app.route("/sets/<set_num>/reviews/<user_id>", methods=["DELETE"])
+    def delete_review(set_num, user_id):
+        review = models.Review.query.filter_by(set_num=set_num, user_id=user_id).first()
+        if review is None:
+            return jsonify({"error": "Review not found"}), 404
+
+        db.session.delete(review)
+        db.session.commit()
+
+        return jsonify({"message": "Review deleted successfully"}), 200
+
     @app.route("/db_health")
     def db_health():
         try:
@@ -162,7 +191,7 @@ def create_app():
         except Exception as e:
             return jsonify({"db": "error", "detail": str(e)}), 500
 
-    # routes to rebrickable api
+    # routes to rebrickable api, Might move to the frontend later
     @app.route("/sets/<set_num>")
     def get_set(set_num):
         s = fetch_set(set_num)
