@@ -6,6 +6,7 @@ CREATE TABLE IF NOT EXISTS reviews (
     organization_level INT NOT NULL,
     build_speed INT NOT NULL,
     review_text TEXT,
+    user_id INT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
