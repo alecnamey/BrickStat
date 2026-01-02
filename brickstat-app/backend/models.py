@@ -46,7 +46,7 @@ class Review(db.Model):
     distraction_level = db.Column(db.Integer)
     organization_level = db.Column(db.Integer)
     build_speed = db.Column(db.Integer)
-
+    user_id = db.Column(db.Integer)
     review_text = db.Column(db.String(250))
 
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
@@ -60,5 +60,6 @@ class Review(db.Model):
             "organization_level": self.organization_level,
             "build_speed": self.build_speed,
             "review_text": self.review_text,
+            "user_id": self.user_id,
             "created_at": self.created_at.isoformat() if self.created_at else None,
         }
